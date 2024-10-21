@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Intershop</string>
+    <string name="cart_title">Carrito</string>
+    <string name="input_email">Correo electronico</string>
+    <string name="input_pass">Contraseña</string>
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="btn_register">Registrase</string>
+</resources>
