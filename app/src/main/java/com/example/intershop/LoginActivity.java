@@ -7,17 +7,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.text.TextUtils;
 
-public class LoginActivity extends AppCompatActivity{
+
+public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
     private Button buttonRegister;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        databaseHelper = new DatabaseHelper(this);
 
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
@@ -27,11 +32,18 @@ public class LoginActivity extends AppCompatActivity{
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
-                // Aquí iría la lógica de autenticación
-                Toast.makeText(LoginActivity.this, "Iniciando sesión: " + email, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
+                String email = editTextEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+
+                if (validateInput(email, password)) {
+                    if (databaseHelper.checkUser(email, password)) {
+                        Toast.makeText(LoginActivity.this, "Login exitoso", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
@@ -41,5 +53,24 @@ public class LoginActivity extends AppCompatActivity{
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+    }
+
+    private boolean validateInput(String email, String password) {
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError("Por favor ingrese su email");
+            editTextEmail.requestFocus();
+            return false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError("Por favor ingrese su contraseña");
+            editTextPassword.requestFocus();
+            return false;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Por favor ingrese un email válido");
+            editTextEmail.requestFocus();
+            return false;
+        }
+        return true;
     }
 }
