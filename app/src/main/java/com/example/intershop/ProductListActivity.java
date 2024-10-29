@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductListActivity extends AppCompatActivity {
+public class ProductListActivity extends AppCompatActivity  {
     private ListView listViewProducts;
     private List<Map<String, String>> productList;
     private Button buttonProcessPurchase;

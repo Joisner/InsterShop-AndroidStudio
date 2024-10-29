@@ -36,12 +36,13 @@ public class LoginActivity extends AppCompatActivity {
                 String password = editTextPassword.getText().toString().trim();
 
                 if (validateInput(email, password)) {
-                    if (databaseHelper.checkUser(email, password)) {
-                        Toast.makeText(LoginActivity.this, "Login exitoso", Toast.LENGTH_SHORT).show();
+                    String userName = String.valueOf(databaseHelper.checkUser(email, password));
+                    if (userName != null) {
+                        Toast.makeText(LoginActivity.this, "Welcome, " + userName, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
