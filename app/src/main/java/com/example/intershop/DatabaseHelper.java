@@ -11,20 +11,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "intershop.db";
     private static final int DATABASE_VERSION = 1;
 
-    // Tabla Usuarios
     public static final String TABLE_USERS = "users";
     public static final String COLUMN_USER_ID = "id";
     public static final String COLUMN_USER_NAME = "name";
     public static final String COLUMN_USER_EMAIL = "email";
     public static final String COLUMN_USER_PASSWORD = "password";
     private SQLiteDatabase db;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Crear tabla usuarios
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
                 + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USER_NAME + " TEXT,"
@@ -67,24 +66,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean checkUser(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-
         String[] columns = {COLUMN_USER_ID};
         String selection = COLUMN_USER_EMAIL + " = ? AND " + COLUMN_USER_PASSWORD + " = ?";
         String[] selectionArgs = {email, password};
 
         try {
             Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
-            int count = cursor.getCount();
+            boolean exists = cursor.getCount() > 0;
             cursor.close();
-            Log.d("DatabaseHelper", "Usuario encontrado: " + (count > 0));
-            return count > 0;
+            return exists;
         } catch (Exception e) {
             Log.e("DatabaseHelper", "Error al verificar usuario: " + e.getMessage());
             return false;
-        } finally {
-            db.close();
         }
     }
+
+    public boolean checkUserExists(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {COLUMN_USER_ID};
+        String selection = COLUMN_USER_EMAIL + " = ?";
+        String[] selectionArgs = {email};
+
+        try {
+            Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
+            boolean exists = cursor.getCount() > 0;
+            cursor.close();
+            return exists;
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Error al verificar existencia de usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
     public void open() {
         db = this.getWritableDatabase();
     }

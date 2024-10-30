@@ -10,18 +10,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductListActivity extends AppCompatActivity  {
+public class ProductListActivity extends AppCompatActivity {
     private ListView listViewProducts;
     private List<Map<String, String>> productList;
     private Button buttonProcessPurchase;
+    private Button buttonShowLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +29,7 @@ public class ProductListActivity extends AppCompatActivity  {
 
         listViewProducts = findViewById(R.id.listViewProducts);
         buttonProcessPurchase = findViewById(R.id.buttonProcessPurchase);
+        buttonShowLocation = findViewById(R.id.buttonShowLocation);
         productList = new ArrayList<>();
 
         // Simular productos
@@ -48,8 +48,9 @@ public class ProductListActivity extends AppCompatActivity  {
         listViewProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Aquí puedes agregar lógica para ver detalles del producto o agregarlo al carrito
-                Toast.makeText(ProductListActivity.this, "Producto seleccionado: " + productList.get(position).get("name"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductListActivity.this,
+                        "Producto seleccionado: " + productList.get(position).get("name"),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -57,6 +58,13 @@ public class ProductListActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProductListActivity.this, ShoppingCartActivity.class));
+            }
+        });
+
+        buttonShowLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProductListActivity.this, MapsActivity.class));
             }
         });
     }
@@ -74,7 +82,6 @@ public class ProductListActivity extends AppCompatActivity  {
         getMenuInflater().inflate(R.menu.menu_product_list, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

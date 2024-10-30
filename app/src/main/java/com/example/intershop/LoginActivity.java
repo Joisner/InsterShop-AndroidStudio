@@ -1,14 +1,13 @@
 package com.example.intershop;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
-
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
@@ -36,13 +35,16 @@ public class LoginActivity extends AppCompatActivity {
                 String password = editTextPassword.getText().toString().trim();
 
                 if (validateInput(email, password)) {
-                    String userName = String.valueOf(databaseHelper.checkUser(email, password));
-                    if (userName != null) {
-                        Toast.makeText(LoginActivity.this, "Welcome, " + userName, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
-                        finish();
+                    if (databaseHelper.checkUserExists(email)) {
+                        if (databaseHelper.checkUser(email, password)) {
+                            Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Usuario no registrado", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
