@@ -29,14 +29,15 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editTextName.getText().toString();
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
-                // Aquí iría la lógica de registro
-                if (databaseHelper.checkUser(email, password)) {
+                String name = editTextName.getText().toString().trim();
+                String email = editTextEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+
+                if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                } else if (databaseHelper.checkUserExists(email)) {
                     Toast.makeText(RegisterActivity.this, "User already exists", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Add the new user to the database
                     long userId = databaseHelper.addUser(name, email, password);
                     if (userId != -1) {
                         Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
@@ -45,8 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                     }
                 }
-                Toast.makeText(RegisterActivity.this, "Registrando: " + name, Toast.LENGTH_SHORT).show();
-                finish(); // Volver a la pantalla de login
             }
         });
     }

@@ -5,4 +5,17 @@
     <string name="input_pass">Contraseña</string>
     <string name="btn_login">Iniciar sesión</string>
     <string name="btn_register">Registrase</string>
+    <string name="add_product">Add Product</string>
+    <string name="payment_title">Payment</string>
+    <string name="pay_with_paypal">Pay with PayPal</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">Price</string>
+    <string name="product_description">Description</string>
+    <string name="anadir_producto">Añadir Producto</string>
+    <string name="nombre_del_producto">Nombre del producto</string>
+    <string name="precio">Precio</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="actualizar_producto">Actualizar Producto</string>
 </resources>

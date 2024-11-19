@@ -38,15 +38,23 @@
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/btn_login" />
+            android:layout_marginTop="16dp"
+            android:text="@string/btn_login" />
 
         <Button
             android:id="@+id/buttonRegister"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/btn_register" />
+            android:layout_marginTop="8dp"
+            android:text="@string/btn_register" />
+
+        <!-- ProgressBar agregado -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
